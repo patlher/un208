@@ -1,0 +1,55 @@
+---
+- hosts: localhost
+  become: yes
+  gather_facts: no
+
+  tasks:
+  - name: creer groupe dev avec GID 900
+    group:
+      name: dev
+      gid: 900
+      state: present # facultatif par defaut
+
+  - name: creer user pierre paul et jacques
+    user:
+      name: "{{ item }}"
+      groups: dev
+      state: present # defaut
+      shell: /bin/bash
+    with_items:
+      - pierre
+      - paul
+      - jacques
+
+# autre écriture possible avec la structure with_dict:
+#    user:
+#      name: "{{ item.key }}"
+#      comment: "{{ item.value.nomcomplet }}"
+#      groups: dev
+#      state: present # defaut
+#      shell: /bin/bash
+#    with_dict:
+#      pierre:
+#        nomcomplet: pierre tramblay
+#      paul:
+#        nomcomplet: paul gagnon
+#      jacques:
+#        nomcomplet: jacques parizeau
+        
+         
+  - name: creer groupe uat avec GID 901
+    group:
+      name: uat
+      gid: 901
+      state: present
+
+  - name: creer user jean michel et alain
+    user:
+      name: "{{ item }}"
+      groups: uat
+      state: present
+      shell: /bin/bash
+    with_items:
+      - jean
+      - michel
+      - alain
