@@ -1,5 +1,5 @@
 ---
-- hosts: web
+- hosts: all
   become: yes
   gather_facts: yes      # facts concernant le node
   tasks:
