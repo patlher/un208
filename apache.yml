@@ -1,0 +1,25 @@
+---
+- hosts: web
+  become: yes
+  gather_facts: yes      # facts concernant le node
+  tasks:
+  - name: Installer Apache Redhat
+    yum:
+      name: httpd
+      state: latest
+    when: ansible_facts['os_family'] == "RedHat"
+  - name: service Apache Redhat
+    service:
+      name: httpd
+      state: started
+    when: ansible_facts['os_family'] == "RedHat"
+  - name: Installer Apache Debian
+    apt:
+      name: apache2
+      state: latest
+    when: ansible_facts['os_family'] == "Debian"
+  - name: Service Apache Debian
+    service:
+      name: apache2
+      state: started
+    when: ansible_facts['os_family'] == "Debian"

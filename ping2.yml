@@ -1,0 +1,7 @@
+---
+- hosts: web
+  become: yes
+  gather_facts: no      # facts concernant le node
+  tasks:
+  - name: test connection       # nom du task (apparaît a l’exécution)
+    ping:                       # module utilisé

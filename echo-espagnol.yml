@@ -1,0 +1,14 @@
+---
+- hosts: web
+  become: yes
+  gather_facts: no      # facts concernant le node
+
+  tasks:
+  - name: boucle un deux trois en espagnol
+    shell: "echo {{ item }}"
+    loop:
+      - "uno"
+      - "dos"
+      - "tres"
+    register: resultat
+  - debug: msg={{ resultat.results[0].stdout }}

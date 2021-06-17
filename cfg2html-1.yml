@@ -1,0 +1,31 @@
+---
+- hosts: host1
+  become: yes
+  
+  tasks:
+# - 1 - rafraichir le depot local GIT
+  - name: Rafraichir depot local GIT pour cfg2html
+    git:
+      repo: https://github.com/cfg2html/cfg2html.git
+      dest: cfg2html
+      update: yes
+    register: gitupdate
+    tags: refresh
+
+  - debug:
+      msg:
+        - "resultat mise a jour depot git..."
+        - "{{ gitupdate }}"
+        - "Si le hash est identique... before - after... il n'y a pas de changement..."
+    tags: refresh
+
+# - 2 - lancer le make RPM 
+  - name: Lancer commande make pour generation RPM
+    make:
+      chdir: /home/vagrant/cfg2html
+    register: make
+    tags: make
+
+  - debug:
+      msg:
+        - "resultat make RPM {{ make }}"

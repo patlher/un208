@@ -1,0 +1,12 @@
+host1
+host6
+host7
+localhost
+
+[db]
+host4
+
+[web]
+host2
+host3
+host5

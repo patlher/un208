@@ -1,0 +1,22 @@
+---
+- hosts: localhost
+  become: yes
+  tasks:
+  - name: Gestion static host file
+    blockinfile:
+      dest: /etc/hosts.ansible
+      marker:  "# {mark} gestion par ansible"
+      marker_begin: "DEBUT"
+      marker_end: "FIN"
+      state: present
+      backup: yes
+      content: |
+        # ansible host
+        172.28.128.10   host10
+        172.28.128.3    host2
+        172.28.128.4    host3
+        172.28.128.5    host4
+        172.28.128.6    host5
+        # ansible manager
+        172.28.128.7    host1
+    tags: confhosts

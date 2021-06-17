@@ -1,0 +1,11 @@
+---
+- hosts: host3
+  become: yes
+  gather_facts: yes
+  roles:
+    - geerlingguy.nfs
+  tasks:
+  - name: partir nfs server
+    service:
+      name: nfs-server
+      state: started

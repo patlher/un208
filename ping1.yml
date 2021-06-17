@@ -1,0 +1,11 @@
+---
+- hosts: web
+  become: yes
+  become_method: sudo   # on passe root via sudo
+  # become_user: root   # permet spécifier user
+  connection: ssh
+  gather_facts: no      # facts concernant le node
+
+  tasks:
+  - name: test connection       # nom du task (apparaît a l’execution)
+    ping:                       # module utilisé

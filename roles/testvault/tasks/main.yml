@@ -1,0 +1,7 @@
+---
+# tasks file for testvault
+- include_vars: secret.yml
+- name: copie le fichier encrypté sur le serveur distant
+  copy:
+    content="{{texte_secret}}"
+    dest=/tmp/fichier-top-secret.txt

@@ -1,0 +1,45 @@
+---
+- hosts: host1
+  become: yes
+  gather_facts: no
+
+# playbook pour installer cfg2html
+# - copier le RPM dans /tmp sur le(s) target(s) - install le RPM sur le(s) target(s)
+  vars:
+    - rpmcfg2html: cfg2html-6.41.1.25.g44e0a25-1.git202105191123.el8.noarch.rpm
+    
+  tasks:
+  - name: Recherche installation de cfg2html
+    yum:
+      list: cfg2html*
+    register: result
+    tags: list
+
+  - debug:
+      msg: "Affiche installation de cfg2html {{ result }}"
+    tags: list
+
+  - name: copier RPM cgf2html
+    copy:
+      src: cfg2html/{{ rpmcfg2html }}
+      dest: /tmp/
+      force: yes
+      remote_src: true
+    tags: copie
+
+  - name: Install cfg2html
+    yum:
+      name: /tmp/{{ rpmcfg2html }}
+      state: present
+      disable_gpg_check: true
+    tags: install
+
+# premier lancement de cfg2html
+  - name: lancement cgf2html
+    shell: cfg2html
+    register: mycfg2html
+    tags: runcfg2html
+
+  - debug:
+      msg: "Execution cfg2html {{ mycfg2html.stdout.split(\n) }}"
+    tags: runcfg2html

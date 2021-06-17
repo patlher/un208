@@ -1,0 +1,13 @@
+- hosts: host5   ### 
+  gather_facts: no
+  vars:
+    apache_vhosts:
+      - {servername: "www.cours-ansible.com", documentroot: "/var/www/cours-ansible.com", serveradmin: "webmaster@cours-ansible.com"}
+      - {servername: "www.monsite.com", documentroot: "/var/www/monsite.com", serveradmin: "webmaster@monsite.com"}
+      - {servername: "www.otherdomain.tld", documentroot: "/var/www/otherdomain", serveradmin: "webmaster@otherdomain.tld"}
+
+  tasks:
+    - name: Creer vhost.conf
+      template:
+        src: vhosts.conf.j2
+        dest: vhosts.conf

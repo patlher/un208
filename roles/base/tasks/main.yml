@@ -1,0 +1,43 @@
+---
+# tasks file for base
+- name: installation pkg tree
+  package:
+    name: tree
+    state: present
+
+- name: -1- creer repertoire /tmp/repo1... /tmp/repo5
+  file:
+    path:  /tmp/{{ item }}
+    state: directory
+    owner: vagrant
+    group: vagrant
+    mode: 0755
+  loop:
+    - repo1
+    - repo2
+    - repo3
+    - repo4
+    - repo5
+
+- name: -2- voir la hierarchie
+  shell: tree /tmp/repo*
+  register: listerep
+
+- debug: msg={{ listerep.stdout.split(\n) }}
+
+- name: Set TimeZone
+  timezone:
+    name: America/Toronto
+
+### Modification root .bash_profile 
+- name: set PATH HIST* PS1 to /root/.bash_profile
+  blockinfile:
+    path: /root/.bash_profile
+    marker:  "# {mark} modifié par le rôle base ansible"
+    backup: yes
+    state:  present
+    content: |
+      export HISTTIMEFORMAT='%F %T '
+      export HISTIGNORE='&:ll:exit:x:h:l:m:history*'
+      export HISTCONTROL=ignoreboth:erasedups
+      export PS1='\[\e[1;31m\][\d \t \u@\h \w]\$\[\e[m\] '
